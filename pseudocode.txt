@@ -1,0 +1,44 @@
+##Pseudocode Sept 21, 2020
+
+TCGA VCF file Subset into breast, ovarian, colo-rectal:
+
+Rows:
+    If chrom in range of genes in pathway
+    If pos in range of genes in pathway
+        Include the row in new file
+Cols:
+    Use GDC website to make a map file to translate from TCGA ID to Tissue type
+    If tissue is x, use map file to filter out columns by tissue x.
+        Include the desired columns in the new file
+
+
+
+File indexed by individual, including TCGA-ID, Chrom, Pos, Ref, Alt, Genotype Info:
+
+    Loop through columns in product of above tissue type subset
+        If genotype is not an empty field
+            Add a row of TCGA-ID (from column), and also Chrom, Pos, Ref, Alt, Genotype Info to a new file
+
+
+
+File with set of unique variants
+
+    Loop through rows in product of above tissue type subset
+        If chrom, pos, ref, and alt (combination of them all) are unique
+            Add row to new file
+
+
+Purpose of these files:
+Subset - to cut down the VCF to a smaller size (more manageable)
+Indexed by individual -  so that it is easier to put the data together to ask: how many variants or lof mutations does this individual have, and do they overlap or can we tell that they are on opposite strands?
+does this individual have two LOF variants/mutations that (knockout two different LOF variants, each knockout the same copy of the gene)
+File with unique set of variants - to be able to run the variants through cravat or BaysDel in order to annotate them (pinpoint LOF mutations in order to analyze by individual)
+
+
+First subset into three different sample groups by tissue type
+Then use the unique set of variants as a way to run everything through cravat or bayesdel.
+That way we will have annotated variants, to identify LOF
+From there we can analyze variants per individual and group them into categories (those who have per gene 0 LOF, 1 LOF, 2 LOF on same copy of gene, 2 LOF one on each copy of the gene)
+
+
+
