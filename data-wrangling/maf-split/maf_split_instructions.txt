@@ -1,0 +1,9 @@
+Type this into the command line to subset the maf file:
+
+grep -w “<Cancer name keyword>“ October_2016_whitelist_2583.snv_mnv_indel.maf > outputfile.maf
+
+Then, use sed to add the header on:
+
+sed -i '1 i \Hugo_Symbol\tChromosome\tStart_position\tEnd_position\tStrand\tVariant_Classification\tVariant_Type\tReference_Allele\tTumor_Seq_Allele1\tTumor_Seq_Allele2\tdbSNP_RS\tdbSNP_Val_Status\tTumor_Sample_Barcode\tMatched_Norm_Sample_Barcode\tGenome_Change\tref_context\tgc_content\ti_1000genomes_AF\ti_1000genomes_ID\ti_Callers\ti_GERM1000G\ti_GERMOVLP\ti_LOWSUPPORT\ti_NORMALPANEL\ti_NumCallers\ti_OXOGFAIL\ti_REMAPFAIL\ti_SEXF\ti_VAF\ti_bPcr\ti_bSeq\ti_qual\ti_repeat_masker\ti_signature_N3\ti_signature_R1\ti_signature_R2\ti_snv_near_indel\tt_alt_count\tt_ref_count\ti_model_score\ti_n_vaf\tProject_Code\tDonor_ID' breast_subset-test1.maf
+
+
