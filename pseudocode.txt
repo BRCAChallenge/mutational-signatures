@@ -8,24 +8,37 @@ Rows:
         Include the row in new file
 Cols:
     Use GDC website to make a map file to translate from TCGA ID to Tissue type
-    If tissue is x, use map file to filter out columns by tissue x.
-        Include the desired columns in the new file
+    If tissue is x, use map file to filter out columns that correspond to sample numbers in tissue cohort x.
+        Include the columns that correspond to sample numbers in tissue cohort x in the final file
+
+Final file: tissue type subset where rows are the variants in the ranges of the genes in any given pathway (in this case, hrr), and columns are only the samples in any given tissue type (in this case, ovarian)
 
 
 
-File indexed by individual, including TCGA-ID, Chrom, Pos, Ref, Alt, Genotype Info:
 
-    Loop through columns in product of above tissue type subset
+
+TSV File indexed by individual, including TCGA-ID, Chrom, Pos, Ref, Alt, Genotype Info:
+
+    Loop through columns in tissue type subset (above)
         If genotype is not an empty field
-            Add a row of TCGA-ID (from column), and also Chrom, Pos, Ref, Alt, Genotype Info to a new file
+            Add a row of TCGA-ID (from column), and also Chrom, Pos, Ref, Alt, Genotype Info to the final file
+
+Final file: TSV file indexed by individual, where each variant has its own row (with columns TCGA-ID, Chrom, Pos, Ref, Alt, Genotype Info)
 
 
 
-File with set of unique variants
+
+
+VCF File with set of unique variants:
 
     Loop through rows in product of above tissue type subset
-        If chrom, pos, ref, and alt (combination of them all) are unique
-            Add row to new file
+	If genotype information is not blank
+	        If chrom, pos, ref, and alt (combination of them all) are unique
+        	    Add row to final file
+
+Final File: VCF file indexed by variant, where each row is a unique variant with traditional vcf columns (Chrom, Pos, ID, Ref, Alt, Qual, Filter, Info, Format) Each variant is unique and only shows up in this file once regardless of whether it shows up in multiple individuals
+
+
 
 
 Purpose of these files:
