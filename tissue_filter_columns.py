@@ -15,7 +15,7 @@ def argParser():
 def read_vcf(vcffile):
 
     with open(vcffile, "r") as myfile:
-        head = list(islice(myfile, 252))
+        head = list(islice(myfile, 255))
 
     with open('testing.vcf', "w") as f2:
         for item in head:
@@ -24,11 +24,17 @@ def read_vcf(vcffile):
 
 def read_mapper(tsvfile, tumortype):
     tcga_ids_bytissue = ["CHROM","POS","ID","REF","ALT","QUAL","FILTER","INFO"]
+    #tcga_ids_bytissue = []
     mapperfile = pd.read_csv(tsvfile,sep='\t')
     for i in range(0,len(mapperfile.index)):
         tissue = mapperfile.iloc[i][1]
         if tissue == tumortype:
             tcga_ids_bytissue.append(mapperfile.iloc[i][3])
+    print(tcga_ids_bytissue)
+    with open('tissue_ids.txt', 'w') as f:
+    
+        for i in tcga_ids_bytissue:
+            f.write(i+'\n')
     return tcga_ids_bytissue
 
 def get_columns(vcffile, tcga_ids_bytissue):
@@ -46,7 +52,7 @@ def get_columns(vcffile, tcga_ids_bytissue):
 def write_header(columns,vcffile):
     header_final = ['#CHROM','POS','ID','REF','ALT','QUAL','FILTER','INFO','FORMAT']
     with open(vcffile,'r') as f:
-        header = islice(f, 252, 253)
+        header = islice(f, 255, 256)
         for item in header:
             if item in columns:
                 header_final.append(item)    
@@ -54,7 +60,7 @@ def write_header(columns,vcffile):
     return header_final         
 
 def filter_columns(columns,vcffile):     
-    with open('testing.vcf','a') as f:
+    with open('testing-ovary.vcf','a') as f:
         with open(vcffile,'r') as v:
             for l in v:
                 if not l.startswith(('##','#')):
@@ -73,6 +79,7 @@ def main():
     tsvfile = args.tsvfile
     read_vcf(vcffile)
     tcga_ids_bytissue = read_mapper(tsvfile,tumortype)
+    
     columns = get_columns(vcffile,tcga_ids_bytissue)
     write_header(columns,vcffile)
     vcffile = filter_columns(columns,vcffile)

@@ -10,7 +10,7 @@ def argParser():
 
 def write_header(vcffile):
     with open(vcffile, "r") as myfile:
-        head = list(islice(myfile, 252))
+        head = list(islice(myfile, 257))
 
     with open('individuals.tsv', "w") as f2:
         for item in head:
@@ -23,21 +23,26 @@ def reorganize(vcffile):
         for l in f:
             if l.startswith('#CHROM'):
                 header_list = l.split()
-                
+                print(header_list)
+                break
+
+        for l in f:
             if not l.startswith('#'):
                 line_list = l.split()
                 chrom = int(line_list[0])
                 pos = int(line_list[1])
                 ref = line_list[3]
                 alt = line_list[4]
-                for i,genotype in enumerate(line_list[9:]):
+                for i,genotype in enumerate(line_list):
                     reorg_linelist = []
-                    if '.:.:.:.:.' not in genotype: #!= './.:.:.:.:.:.:.:.:.:.:.:.:.:.' or './.:.:.:.:.:.:.:.:.:.:.:.:.:.:.':
-                        tcga_id = header_list[i-9]
-                        reorg_linelist=[tcga_id,str(chrom),str(pos),ref,alt,genotype]
-                        print(reorg_linelist)
-                        with open("individuals.tsv",'a') as indiv_file:
-                            indiv_file.write('\t'.join(reorg_linelist) + '\n')
+                    if '.:.' not in genotype: #!= './.:.:.:.:.:.:.:.:.:.:.:.:.:.' or './.:.:.:.:.:.:.:.:.:.:.:.:.:.:.':
+                        if header_list[i].startswith('TCGA'):
+                            tcga_id = header_list[i]
+                            print(tcga_id,i)
+                            reorg_linelist=[tcga_id,str(chrom),str(pos),ref,alt,genotype]
+        #                print(reorg_linelist)
+                            with open("individuals.tsv",'a') as indiv_file:
+                                indiv_file.write('\t'.join(reorg_linelist) + '\n')
 
                 
 
