@@ -6,8 +6,8 @@ TCGA VCF file Subset into breast, ovarian, colo-rectal:
 
 Rows:
     If chrom in range of genes in pathway
-    If pos in range of genes in pathway
-        Include the row in new file
+    	If pos in range of genes in pathway
+        	Include the row in new file
 Cols:
     Use GDC website to make a map file to translate from TCGA ID to Tissue type
     If tissue is x, use map file to filter out columns that correspond to sample numbers in tissue cohort x.
@@ -19,14 +19,17 @@ Final file: tissue type subset where rows are the variants in the ranges of the 
 
 
 
-TSV File indexed by individual, including TCGA-ID, Chrom, Pos, Ref, Alt, Genotype Info:
+TSV File organized by individual, where each variant has its own row including TCGA-ID, Chrom, Pos, Ref, Alt, Genotype Info:
 
     Loop through columns in tissue type subset (above)
         If genotype is not an empty field
             Add a row of TCGA-ID (from column), and also Chrom, Pos, Ref, Alt, Genotype Info to the final file
 
-Final file: TSV file indexed by individual, where each variant has its own row (with columns TCGA-ID, Chrom, Pos, Ref, Alt, Genotype Info)
-
+Final file: TSV file organized by individual, where each variant has its own row (with columns TCGA-ID, Chrom, Pos, Ref, Alt, Genotype Info)
+Test to determine success:
+	Sort the TCGA ids in the final file in alphabetical order
+		Count the number of times a unique TCGA comes up in the sorted list
+			Compare the number of unique TCGA IDs to the number of IDs in the tissue cohort, ideally counts should be the same
 
 
 
@@ -35,11 +38,13 @@ VCF File with set of unique variants:
 
     Loop through rows in product of above tissue type subset
 	If genotype information is not blank
-	        If chrom, pos, ref, and alt (combination of them all) are unique
+	        If chrom, pos, ref, and alt (combination of them all) have not been added to the final vcf file
         	    Add row to final file
 
 Final File: VCF file indexed by variant, where each row is a unique variant with traditional vcf columns (Chrom, Pos, ID, Ref, Alt, Qual, Filter, Info, Format) Each variant is unique and only shows up in this file once regardless of whether it shows up in multiple individuals
-
+Test to determine success:
+	In the tissue type subset, go through line by line and count the number of non-blank genotype fields
+		Compare this count with the number of lines in the final vcf file of unique variants, ideally counts should be the same
 
 
 
