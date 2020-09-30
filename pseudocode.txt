@@ -29,7 +29,7 @@ Final file: TSV file organized by individual, where each variant has its own row
 Test to determine success:
 	Sort the TCGA ids in the final file in alphabetical order
 		Count the number of times a unique TCGA comes up in the sorted list
-			Compare the number of unique TCGA IDs to the number of IDs in the tissue cohort
+			Compare the number of unique TCGA IDs to the number of IDs in the tissue cohort, ideally counts should be the same
 
 
 
@@ -44,7 +44,7 @@ VCF File with set of unique variants:
 Final File: VCF file indexed by variant, where each row is a unique variant with traditional vcf columns (Chrom, Pos, ID, Ref, Alt, Qual, Filter, Info, Format) Each variant is unique and only shows up in this file once regardless of whether it shows up in multiple individuals
 Test to determine success:
 	In the tissue type subset, go through line by line and count the number of non-blank genotype fields
-		Compare this count with the number of lines in the final vcf file of unique variants
+		Compare this count with the number of lines in the final vcf file of unique variants, ideally counts should be the same
 
 
 
