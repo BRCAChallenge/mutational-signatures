@@ -1,0 +1,26 @@
+##Sept 30, 2020
+## Pseudocode for analysis
+
+
+Using file of unique germline variants in a given tissue cohort:
+
+	Run variants through OpenCravat to get Revel score, establish cut offs from paper (for missense variants)
+	Run variants through BayesDel (Bing Feng, Utah, for indel variants)
+	Identify variants that result in a loss of function mutation (using cut offs for Revel, tbd for BayesDel)
+
+Using file with data per individual, per variant:
+	
+	For each gene, identify the individuals who have LOF mutations
+
+Using file of somatic variants in a given tissue cohort:
+
+	For each gene, match individuals (sample IDs) to view both germline data and somatic data in one file
+	Identify individuals who have both LOF germline mutation and somatic variant with gistic score of either -1 or -2
+		Add these individuals to a two hit group (either list or separate file)
+	Identify individusals who have either LOF germline mutation or somatic variant with gistic score of eitehr -1 or -2
+		Add these individuals to an at least one hit group (either list or separate file)
+	Identify individuals who are not in either two hit or one hit group
+
+Using somatic mutational score data:
+	Compare somatic mutational scores in individuals with two hits, one hit, and no hits.
+
