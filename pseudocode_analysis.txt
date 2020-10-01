@@ -10,7 +10,7 @@ Using file of unique germline variants in a given tissue cohort:
 
 Using file with data per individual, per variant:
 	
-	For each gene, identify the individuals who have LOF mutations
+	For each gene, use this file to identify the individuals who have LOF mutations (positions already identified above)
 
 Using file of somatic variants in a given tissue cohort:
 
