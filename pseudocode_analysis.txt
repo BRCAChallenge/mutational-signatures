@@ -4,7 +4,7 @@
 
 Using file of unique germline variants in a given tissue cohort:
 
-	Run variants through OpenCravat to get Revel score, establish cut offs from paper (for missense variants)
+	Run variants through OpenCravat to get Revel score and pathogenic interpretations from ClinVar, establish cut offs from paper (for missense variants)
 	Run variants through BayesDel (Bing Feng, Utah, for indel variants)
 	Identify variants that result in a loss of function mutation (using cut offs for Revel, tbd for BayesDel)
 
